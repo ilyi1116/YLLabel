@@ -12,6 +12,7 @@
 		B8BDBB2E1E57FD0600CD1EA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8BDBB2C1E57FD0600CD1EA2 /* Main.storyboard */; };
 		B8BDBB301E57FD0600CD1EA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8BDBB2F1E57FD0600CD1EA2 /* Assets.xcassets */; };
 		B8BDBB331E57FD0600CD1EA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8BDBB311E57FD0600CD1EA2 /* LaunchScreen.storyboard */; };
+		B8BDBB411E57FEF100CD1EA2 /* YLLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		B8BDBB2F1E57FD0600CD1EA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B8BDBB321E57FD0600CD1EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B8BDBB341E57FD0600CD1EA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		B8BDBB1C1E57FD0600CD1EA2 = {
 			isa = PBXGroup;
 			children = (
+				B8BDBB3F1E57FEF100CD1EA2 /* YLLabel */,
 				B8BDBB271E57FD0600CD1EA2 /* YLLabelDemo */,
 				B8BDBB261E57FD0600CD1EA2 /* Products */,
 			);
@@ -62,6 +65,15 @@
 				B8BDBB341E57FD0600CD1EA2 /* Info.plist */,
 			);
 			path = YLLabelDemo;
+			sourceTree = "<group>";
+		};
+		B8BDBB3F1E57FEF100CD1EA2 /* YLLabel */ = {
+			isa = PBXGroup;
+			children = (
+				B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */,
+			);
+			name = YLLabel;
+			path = ../../YLLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +150,7 @@
 			files = (
 				B8BDBB2B1E57FD0600CD1EA2 /* ViewController.swift in Sources */,
 				B8BDBB291E57FD0600CD1EA2 /* AppDelegate.swift in Sources */,
+				B8BDBB411E57FEF100CD1EA2 /* YLLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +310,7 @@
 				B8BDBB391E57FD0600CD1EA2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

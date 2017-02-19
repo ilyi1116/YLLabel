@@ -10,11 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var textView: UITextView!
+    
+    @IBOutlet weak var label: YLLabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
+
+    @IBAction func showButtonClick(_ sender: UIButton) {
+        
+        
+        
+        
+        
+    }
 
 
 

@@ -13,6 +13,8 @@
 		B8BDBB301E57FD0600CD1EA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8BDBB2F1E57FD0600CD1EA2 /* Assets.xcassets */; };
 		B8BDBB331E57FD0600CD1EA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8BDBB311E57FD0600CD1EA2 /* LaunchScreen.storyboard */; };
 		B8BDBB411E57FEF100CD1EA2 /* YLLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */; };
+		D37FCAEF1E5AED2700F179CB /* YLLabelRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */; };
+		D37FCAF11E5B132F00F179CB /* YLLabelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37FCAF01E5B132F00F179CB /* YLLabelType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		B8BDBB321E57FD0600CD1EA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B8BDBB341E57FD0600CD1EA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabel.swift; sourceTree = "<group>"; };
+		D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelRegex.swift; sourceTree = "<group>"; };
+		D37FCAF01E5B132F00F179CB /* YLLabelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */,
+				D37FCAF01E5B132F00F179CB /* YLLabelType.swift */,
+				D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */,
 			);
 			name = YLLabel;
 			path = ../../YLLabel;
@@ -148,9 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D37FCAEF1E5AED2700F179CB /* YLLabelRegex.swift in Sources */,
 				B8BDBB2B1E57FD0600CD1EA2 /* ViewController.swift in Sources */,
 				B8BDBB291E57FD0600CD1EA2 /* AppDelegate.swift in Sources */,
 				B8BDBB411E57FEF100CD1EA2 /* YLLabel.swift in Sources */,
+				D37FCAF11E5B132F00F179CB /* YLLabelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

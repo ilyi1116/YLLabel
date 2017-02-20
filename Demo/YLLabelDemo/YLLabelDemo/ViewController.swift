@@ -17,15 +17,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        label.text = "Label # hhahha#"
     }
 
 
     @IBAction func showButtonClick(_ sender: UIButton) {
         
         
-        
-        
-        
+        label.text = textView.text        
     }
 
 

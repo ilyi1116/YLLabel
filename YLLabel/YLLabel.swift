@@ -8,6 +8,8 @@
 
 import UIKit
 
+typealias ElementTuple = (range: NSRange, element: YLElements)
+
 class YLLabel: UILabel {
 
     /*
@@ -20,9 +22,14 @@ class YLLabel: UILabel {
      从高到低排序如下：
      open > public > interal > fileprivate > private
      */
+    // MARK: - public 属性
+    open var hashtagColor : UIColor = .blue{
+        didSet {
+            
+        }
+    }
     
-    
-    // MARK: - 属性
+    // MARK: - override 属性
     
     /*
      1.显示高亮主要是正则表达式的运用
@@ -31,19 +38,58 @@ class YLLabel: UILabel {
      */
     override open var text: String? {
         didSet {
-            
+            updateTextStorage()
         }
     }
+    
+    // MARK: - 私有属性
+    /*
+     NSTextStorage保存并管理UITextView要展示的文字内容，该类是NSMutableAttributedString的子类，由于可以灵活地往文字添加或修改属性，所以非常适用于保存并修改文字属性。
+     NSLayoutManager用于管理NSTextStorage其中的文字内容的排版布局。
+     NSTextContainer则定义了一个矩形区域用于存放已经进行了排版并设置好属性的文字。
+     以上三者是相互包含相互作用的层次关系。
+     NSTextStorage -> NSLayoutManager -> NSTextContainer
+     */
+    
+    fileprivate var textStorage : NSTextStorage =  NSTextStorage()
+    fileprivate var layoutManager : NSLayoutManager =  NSLayoutManager()
+    fileprivate var textContainer : NSTextContainer =  NSTextContainer()
+    
+    lazy var YLElements = [YLLabelType: [ElementTuple]]()
+    
     // MARK: - init functions
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupLabel()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        setupLabel()
     }
     
-
+    // MARK: - 私有方法
+    
+    fileprivate func setupLabel()  {
+        textStorage.addLayoutManager(layoutManager)
+        layoutManager.addTextContainer(textContainer)
+        textContainer.maximumNumberOfLines = 0
+        textContainer.lineFragmentPadding = 0
+        textContainer.lineBreakMode = .byWordWrapping
+    }
+    
+    fileprivate func updateTextStorage(resetText: Bool = true) {
+        
+        guard let text = text else {
+            fatalError()
+        }
+        
+        let mutAttrString = NSMutableAttributedString(string: text)
+        
+        if resetText {
+            print(mutAttrString.string)
+            
+            
+        }
+    }
 }

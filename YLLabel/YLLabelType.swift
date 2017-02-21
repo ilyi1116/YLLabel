@@ -11,7 +11,7 @@ import UIKit
 enum  YLLabelType {
     case hashtag
     
-    var Regex : String {
+     var pattern : String {
         switch self {
         case .hashtag:
             

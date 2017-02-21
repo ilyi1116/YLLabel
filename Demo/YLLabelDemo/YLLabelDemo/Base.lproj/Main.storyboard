@@ -35,8 +35,8 @@
                                     <action selector="showButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mXW-yZ-9af"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="输入文字" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
-                                <rect key="frame" x="67" y="70" width="240" height="150"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Label #hhahha#" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
+                                <rect key="frame" x="87.5" y="70" width="240" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="NWs-vX-P3r"/>
@@ -46,9 +46,21 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label #hhahha#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czX-iB-1Dr" customClass="YLLabel" customModule="YLLabelDemo" customModuleProvider="target">
-                                <rect key="frame" x="67" y="270" width="240" height="150"/>
+                                <rect key="frame" x="87.5" y="270" width="240" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UITextView" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVP-8Y-gba">
+                                <rect key="frame" x="0.0" y="136.5" width="87.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YLLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FgU-9m-kAC">
+                                <rect key="frame" x="0.0" y="337" width="87.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -57,11 +69,17 @@
                         <constraints>
                             <constraint firstItem="czX-iB-1Dr" firstAttribute="width" secondItem="MVG-2K-thd" secondAttribute="width" id="4dI-r2-WUS"/>
                             <constraint firstItem="czX-iB-1Dr" firstAttribute="top" secondItem="MVG-2K-thd" secondAttribute="bottom" constant="50" id="9EZ-xh-jT2"/>
-                            <constraint firstItem="MVG-2K-thd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CTg-Bs-eIe"/>
+                            <constraint firstItem="MVG-2K-thd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="20" id="CTg-Bs-eIe"/>
+                            <constraint firstItem="eVP-8Y-gba" firstAttribute="leading" secondItem="FgU-9m-kAC" secondAttribute="leading" id="I9x-gC-XHd"/>
+                            <constraint firstItem="czX-iB-1Dr" firstAttribute="leading" secondItem="FgU-9m-kAC" secondAttribute="trailing" id="JEB-dk-bXd"/>
+                            <constraint firstItem="FgU-9m-kAC" firstAttribute="centerY" secondItem="czX-iB-1Dr" secondAttribute="centerY" id="LoX-Q7-reL"/>
                             <constraint firstItem="RfU-PG-GsA" firstAttribute="top" secondItem="czX-iB-1Dr" secondAttribute="bottom" constant="50" id="ML1-b6-Hv6"/>
+                            <constraint firstItem="eVP-8Y-gba" firstAttribute="width" secondItem="FgU-9m-kAC" secondAttribute="width" id="Qrv-F7-L8h"/>
                             <constraint firstItem="czX-iB-1Dr" firstAttribute="height" secondItem="MVG-2K-thd" secondAttribute="height" id="Zx2-at-4Az"/>
                             <constraint firstItem="MVG-2K-thd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="l4e-WT-TUr"/>
-                            <constraint firstItem="czX-iB-1Dr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="v0d-lS-Gee"/>
+                            <constraint firstItem="FgU-9m-kAC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="olR-Fr-BRC"/>
+                            <constraint firstItem="eVP-8Y-gba" firstAttribute="centerY" secondItem="MVG-2K-thd" secondAttribute="centerY" id="sjQ-O2-bIE"/>
+                            <constraint firstItem="czX-iB-1Dr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="20" id="v0d-lS-Gee"/>
                             <constraint firstItem="RfU-PG-GsA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="x23-64-g2p"/>
                         </constraints>
                     </view>

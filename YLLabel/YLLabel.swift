@@ -11,6 +11,8 @@ import UIKit
 typealias ElementTuple = (range: NSRange, element: YLElements)
 
 class YLLabel: UILabel {
+    
+    open var enabledTypes: [YLLabelType] = [.hashtag]
 
     /*
      访问控制
@@ -55,7 +57,7 @@ class YLLabel: UILabel {
     fileprivate var layoutManager : NSLayoutManager =  NSLayoutManager()
     fileprivate var textContainer : NSTextContainer =  NSTextContainer()
     
-    lazy var YLElements = [YLLabelType: [ElementTuple]]()
+    lazy var ylElements = [YLLabelType: [ElementTuple]]()
     
     // MARK: - init functions
     override public init(frame: CGRect) {
@@ -76,9 +78,10 @@ class YLLabel: UILabel {
         textContainer.maximumNumberOfLines = 0
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = .byWordWrapping
+        isUserInteractionEnabled = true
     }
     
-    fileprivate func updateTextStorage(resetText: Bool = true) {
+    fileprivate func updateTextStorage(updateString: Bool = true) {
         
         guard let text = text else {
             fatalError()
@@ -86,10 +89,83 @@ class YLLabel: UILabel {
         
         let mutAttrString = NSMutableAttributedString(string: text)
         
-        if resetText {
+        if updateString {
             print(mutAttrString.string)
             
+            //var attributes = [String:Any]()
+            //attributes[NSForegroundColorAttributeName] = UIColor.red
+            //mutAttrString.setAttributes(attributes, range: NSRange(location: 2, length: 2))
             
+            getAttributesAndElements(mutAttrString)
+        }
+        
+        addPatternAttributes(mutAttrString)
+        
+        textStorage.setAttributedString(mutAttrString)
+        
+        setNeedsDisplay()
+        
+    }
+    /// 核心方法,配置ylElements
+    fileprivate func getAttributesAndElements(_ mutAttrString :NSMutableAttributedString){
+        
+        let text = mutAttrString.string
+        let range = NSRange(location: 0, length: text.characters.count)
+        let nsstring = text as NSString
+        var elementTupleArr = [ElementTuple]()
+        
+        for type in enabledTypes {
+            
+            // 1.创建规则
+            let pattern = type.pattern
+            // 2.利用规则创建一个正则表达式对象
+            let regex = try! NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
+            // 从指定字符串中取出所有匹配规则的字符串的结果集
+            let matches = regex.matches(in: text, options: [], range: range)
+            
+            for match in matches {
+                let range = NSRange(location: match.range.location+1, length: match.range.length-2)
+                let word = nsstring.substring(with: range)
+                print(word)
+                elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
+            }
+            
+            ylElements[type] = elementTupleArr
         }
     }
+    /// 给目标字符串添加文字属性
+    fileprivate func addPatternAttributes(_ mutAttrString :NSMutableAttributedString){
+        
+        var range = NSRange(location: 0, length: 0)
+        //给指定索引的字符返回属性
+        var attributes = mutAttrString.attributes(at: 0, effectiveRange: &range)
+        
+        for (type,elements) in ylElements {
+            switch type {
+            case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
+            }
+            
+            for element in elements {
+                mutAttrString.setAttributes(attributes, range: element.range)
+            }
+        }
+        
+    }
+    
+    // MARK: - drawText
+    override func drawText(in rect: CGRect) {
+        
+        let range = NSRange(location: 0, length: textStorage.length)
+        
+        let newRect = layoutManager.usedRect(for: textContainer)
+        
+        let y = (rect.size.height - newRect.size.height) / 2
+        
+        let newOrigin = CGPoint(x: rect.origin.x, y: y)
+        
+        layoutManager.drawGlyphs(forGlyphRange: range, at: newOrigin)
+    }
 }
+
+
+

@@ -15,7 +15,6 @@
 		B8BDBB411E57FEF100CD1EA2 /* YLLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */; };
 		D37FCAEF1E5AED2700F179CB /* YLLabelRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */; };
 		D37FCAF11E5B132F00F179CB /* YLLabelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37FCAF01E5B132F00F179CB /* YLLabelType.swift */; };
-		D39B3C191E5C662C0016B500 /* YLLabelAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39B3C181E5C662C0016B500 /* YLLabelAction.swift */; };
 		D39B3C1B1E5C6B8E0016B500 /* YLLabelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39B3C1A1E5C6B8E0016B500 /* YLLabelBuilder.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		B8BDBB401E57FEF100CD1EA2 /* YLLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabel.swift; sourceTree = "<group>"; };
 		D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelRegex.swift; sourceTree = "<group>"; };
 		D37FCAF01E5B132F00F179CB /* YLLabelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelType.swift; sourceTree = "<group>"; };
-		D39B3C181E5C662C0016B500 /* YLLabelAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelAction.swift; sourceTree = "<group>"; };
 		D39B3C1A1E5C6B8E0016B500 /* YLLabelBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YLLabelBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,7 +80,6 @@
 				D37FCAF01E5B132F00F179CB /* YLLabelType.swift */,
 				D37FCAEE1E5AED2700F179CB /* YLLabelRegex.swift */,
 				D39B3C1A1E5C6B8E0016B500 /* YLLabelBuilder.swift */,
-				D39B3C181E5C662C0016B500 /* YLLabelAction.swift */,
 			);
 			name = YLLabel;
 			path = ../../YLLabel;
@@ -120,6 +117,7 @@
 				TargetAttributes = {
 					B8BDBB241E57FD0600CD1EA2 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 82DDSKHR8F;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -161,7 +159,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D37FCAEF1E5AED2700F179CB /* YLLabelRegex.swift in Sources */,
-				D39B3C191E5C662C0016B500 /* YLLabelAction.swift in Sources */,
 				B8BDBB2B1E57FD0600CD1EA2 /* ViewController.swift in Sources */,
 				B8BDBB291E57FD0600CD1EA2 /* AppDelegate.swift in Sources */,
 				D39B3C1B1E5C6B8E0016B500 /* YLLabelBuilder.swift in Sources */,
@@ -287,7 +284,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 82DDSKHR8F;
 				INFOPLIST_FILE = YLLabelDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yinlong.YLLabelDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,7 +298,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 82DDSKHR8F;
 				INFOPLIST_FILE = YLLabelDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yinlong.YLLabelDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

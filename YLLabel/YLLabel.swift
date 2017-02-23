@@ -56,6 +56,8 @@ class YLLabel: UILabel {
     fileprivate var textStorage : NSTextStorage =  NSTextStorage()
     fileprivate var layoutManager : NSLayoutManager =  NSLayoutManager()
     fileprivate var textContainer : NSTextContainer =  NSTextContainer()
+    fileprivate var drawBeginY : CGFloat = 0
+    
     
     lazy var ylElements = [YLLabelType: [ElementTuple]]()
     
@@ -159,13 +161,52 @@ class YLLabel: UILabel {
         
         let newRect = layoutManager.usedRect(for: textContainer)
         
-        let y = (rect.size.height - newRect.size.height) / 2
+        drawBeginY = (rect.size.height - newRect.size.height) / 2
         
-        let newOrigin = CGPoint(x: rect.origin.x, y: y)
+        let newOrigin = CGPoint(x: rect.origin.x, y: drawBeginY)
         
         layoutManager.drawGlyphs(forGlyphRange: range, at: newOrigin)
     }
+    
+    // MARK: - touch
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        
+        guard let touch = touches.first else {
+            return
+        }
+        
+        var location = touch.location(in: self)
+        location.y -= drawBeginY
+        
+        print(location as Any)
+        
+        let textRect = layoutManager.boundingRect(forGlyphRange: NSRange(location: 0, length: textStorage.length), in: textContainer)
+        
+        print(textRect as Any)
+        
+        guard textRect.contains(location) else {
+            return
+        }
+        print("点击到了文字")
+        
+        let index = layoutManager.glyphIndex(for: location, in: textContainer)
+        
+        print("index = \(index)")
+        
+        //ylElements = ["key":[elementTuple]] $0.1 = [elementTuple]
+        for elementTuples in ylElements.map({ $0.1 }){
+            
+            for elementTuple in elementTuples {
+                
+                if index > elementTuple.range.location &&
+                    index < elementTuple.range.location + elementTuple.range.length{
+                    
+                    print("点击到了我想要的文字")
+                }
+            }
+        }
+    }
 }
-
 
 

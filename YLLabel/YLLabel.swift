@@ -58,8 +58,8 @@ class YLLabel: UILabel {
     fileprivate var textContainer : NSTextContainer =  NSTextContainer()
     fileprivate var drawBeginY : CGFloat = 0
     
-    
-    lazy var ylElements = [YLLabelType: [ElementTuple]]()
+    // 重要属性
+    lazy var elementDict = [YLLabelType: [ElementTuple]]()
     
     // MARK: - init functions
     override public init(frame: CGRect) {
@@ -108,7 +108,7 @@ class YLLabel: UILabel {
         setNeedsDisplay()
         
     }
-    /// 核心方法,配置ylElements
+    /// 核心方法,配置elementDict
     fileprivate func getAttributesAndElements(_ mutAttrString :NSMutableAttributedString){
         
         let text = mutAttrString.string
@@ -132,7 +132,7 @@ class YLLabel: UILabel {
                 elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
             }
             
-            ylElements[type] = elementTupleArr
+            elementDict[type] = elementTupleArr
         }
     }
     /// 给目标字符串添加文字属性
@@ -142,7 +142,7 @@ class YLLabel: UILabel {
         //给指定索引的字符返回属性
         var attributes = mutAttrString.attributes(at: 0, effectiveRange: &range)
         
-        for (type,elements) in ylElements {
+        for (type,elements) in elementDict {
             switch type {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
             }
@@ -194,8 +194,8 @@ class YLLabel: UILabel {
         
         print("index = \(index)")
         
-        //ylElements = ["key":[elementTuple]] $0.1 = [elementTuple]
-        for elementTuples in ylElements.map({ $0.1 }){
+        //elementDict = ["key":[elementTuple]] $0.1 = [elementTuple]
+        for elementTuples in elementDict.map({ $0.1 }){
             
             for elementTuple in elementTuples {
                 

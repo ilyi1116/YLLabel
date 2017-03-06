@@ -59,6 +59,8 @@ class YLLabel: UILabel {
     fileprivate var drawBeginY : CGFloat = 0
     
     // 重要属性
+    // key   : 高亮类型 -- 话题(##) 提到(@) URL 未来可能支持自定义
+    // value : 元组数组 -- 高亮文字的文字及内容
     lazy var elementDict = [YLLabelType: [ElementTuple]]()
     
     // MARK: - init functions
@@ -94,10 +96,6 @@ class YLLabel: UILabel {
         if updateString {
             print(mutAttrString.string)
             
-            //var attributes = [String:Any]()
-            //attributes[NSForegroundColorAttributeName] = UIColor.red
-            //mutAttrString.setAttributes(attributes, range: NSRange(location: 2, length: 2))
-            
             getAttributesAndElements(mutAttrString)
         }
         
@@ -111,28 +109,12 @@ class YLLabel: UILabel {
     /// 核心方法,配置elementDict
     fileprivate func getAttributesAndElements(_ mutAttrString :NSMutableAttributedString){
         
-        let text = mutAttrString.string
-        let range = NSRange(location: 0, length: text.characters.count)
-        let nsstring = text as NSString
-        var elementTupleArr = [ElementTuple]()
+        let textString = mutAttrString.string
+        let range = NSRange(location: 0, length: textString.characters.count)
         
         for type in enabledTypes {
             
-            // 1.创建规则
-            let pattern = type.pattern
-            // 2.利用规则创建一个正则表达式对象
-            let regex = try! NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
-            // 从指定字符串中取出所有匹配规则的字符串的结果集
-            let matches = regex.matches(in: text, options: [], range: range)
-            
-            for match in matches {
-                let range = NSRange(location: match.range.location+1, length: match.range.length-2)
-                let word = nsstring.substring(with: range)
-                print(word)
-                elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
-            }
-            
-            elementDict[type] = elementTupleArr
+            elementDict[type] = YLLabelBuilder.creatElementTupleArr(type: type, from: textString, range: range)
         }
     }
     /// 给目标字符串添加文字属性

@@ -14,9 +14,7 @@ enum  YLLabelType {
      var pattern : String {
         switch self {
         case .hashtag:
-            
             return YLLabelRegex.hashtagRegex
-            
         }
     }
     

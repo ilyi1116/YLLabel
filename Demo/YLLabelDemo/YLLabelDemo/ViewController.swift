@@ -18,6 +18,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         label.text = "Label #hhahha#"
+        label.mentionColor = UIColor.brown
+        label.handleHashtagTap { (string) in
+            self.alert("标签", message: string)
+        }
+        
+//        label.handleMentionTap { (string) in
+//            self.alert("提醒", message: string)
+//        }
+        
+        label.mentionTapHandler = { (string) in
+            self.alert("提醒", message: string)
+        }
     }
 
 
@@ -27,7 +39,15 @@ class ViewController: UIViewController {
         label.text = textView.text        
     }
 
-
-
+    
+    func alert(_ title: String, message: String) {
+        let vc = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        vc.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(vc, animated: true, completion: nil)
+    }
 }
+
+
+
+
 

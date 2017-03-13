@@ -12,7 +12,16 @@ typealias ElementTuple = (range: NSRange, element: YLElements)
 
 class YLLabel: UILabel {
     
-    open var enabledTypes: [YLLabelType] = [.hashtag]
+    // MARK: - init functions
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLabel()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupLabel()
+    }
 
     /*
      访问控制
@@ -24,14 +33,26 @@ class YLLabel: UILabel {
      从高到低排序如下：
      open > public > interal > fileprivate > private
      */
-    // MARK: - public 属性
+    // MARK: -  属性
+    
+    // MARK: 公用
+    
+    open var enabledTypes: [YLLabelType] = [.hashtag,.mention]
+    
     open var hashtagColor : UIColor = .blue{
-        didSet {
-            
-        }
+        didSet {updateTextStorage(updateString: false)}
     }
     
-    // MARK: - override 属性
+    open var mentionColor : UIColor = .red{
+        didSet {updateTextStorage(updateString: false)}
+    }
+    
+    // 标签点击事件
+    internal var hashtagTapHandler: ((String) -> ())?
+    // 提醒点击事件
+    internal var mentionTapHandler: ((String) -> ())?
+    
+    // MARK: - 重写
     
     /*
      1.显示高亮主要是正则表达式的运用
@@ -44,7 +65,7 @@ class YLLabel: UILabel {
         }
     }
     
-    // MARK: - 私有属性
+    // MARK: 私有属性
     /*
      NSTextStorage保存并管理UITextView要展示的文字内容，该类是NSMutableAttributedString的子类，由于可以灵活地往文字添加或修改属性，所以非常适用于保存并修改文字属性。
      NSLayoutManager用于管理NSTextStorage其中的文字内容的排版布局。
@@ -63,18 +84,19 @@ class YLLabel: UILabel {
     // value : 元组数组 -- 高亮文字的文字及内容
     lazy var elementDict = [YLLabelType: [ElementTuple]]()
     
-    // MARK: - init functions
-    override public init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLabel()
+    // MARK: - 方法
+    
+    // MARK: 公用
+    
+    open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
+        hashtagTapHandler = handler
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupLabel()
+    open func handleMentionTap(_ handler: @escaping (String) -> ()) {
+        mentionTapHandler = handler
     }
     
-    // MARK: - 私有方法
+    // MARK: 私有
     
     fileprivate func setupLabel()  {
         textStorage.addLayoutManager(layoutManager)
@@ -87,15 +109,11 @@ class YLLabel: UILabel {
     
     fileprivate func updateTextStorage(updateString: Bool = true) {
         
-        guard let text = text else {
-            fatalError()
-        }
+        guard let text = text else {return}
         
         let mutAttrString = NSMutableAttributedString(string: text)
         
         if updateString {
-            print(mutAttrString.string)
-            
             getAttributesAndElements(mutAttrString)
         }
         
@@ -104,7 +122,6 @@ class YLLabel: UILabel {
         textStorage.setAttributedString(mutAttrString)
         
         setNeedsDisplay()
-        
     }
     /// 核心方法,配置elementDict
     fileprivate func getAttributesAndElements(_ mutAttrString :NSMutableAttributedString){
@@ -113,7 +130,7 @@ class YLLabel: UILabel {
         let range = NSRange(location: 0, length: textString.characters.count)
         
         for type in enabledTypes {
-            
+        
             elementDict[type] = YLLabelBuilder.creatElementTupleArr(type: type, from: textString, range: range)
         }
     }
@@ -127,13 +144,13 @@ class YLLabel: UILabel {
         for (type,elements) in elementDict {
             switch type {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
+            case .mention: attributes[NSForegroundColorAttributeName] = mentionColor
             }
             
             for element in elements {
                 mutAttrString.setAttributes(attributes, range: element.range)
             }
-        }
-        
+        }        
     }
     
     // MARK: - drawText
@@ -151,44 +168,80 @@ class YLLabel: UILabel {
     }
     
     // MARK: - touch
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        guard let touch = touches.first else {
-            return
-        }
+    
+    fileprivate func onTouch(_ touch : UITouch) {
         
         var location = touch.location(in: self)
         location.y -= drawBeginY
         
-        print(location as Any)
-        
         let textRect = layoutManager.boundingRect(forGlyphRange: NSRange(location: 0, length: textStorage.length), in: textContainer)
         
-        print(textRect as Any)
-        
-        guard textRect.contains(location) else {
-            return
-        }
-        print("点击到了文字")
+        guard textRect.contains(location) else {return}
         
         let index = layoutManager.glyphIndex(for: location, in: textContainer)
         
-        print("index = \(index)")
-        
-        //elementDict = ["key":[elementTuple]] $0.1 = [elementTuple]
-        for elementTuples in elementDict.map({ $0.1 }){
-            
-            for elementTuple in elementTuples {
+        switch touch.phase {
+        case .began:
+            print("began")
+        case .moved:
+            print("moved")
+        case .ended:
+
+            //elementDict = ["key":[elementTuple]] $0.1 = [elementTuple]
+            for elementTuples in elementDict.map({ $0.1 }){
                 
-                if index > elementTuple.range.location &&
-                    index < elementTuple.range.location + elementTuple.range.length{
+                for elementTuple in elementTuples {
                     
-                    print("点击到了我想要的文字")
+                    guard index > elementTuple.range.location else {continue}
+                    guard index < elementTuple.range.location + elementTuple.range.length else {continue}
+                    
+                    switch elementTuple.element {
+                    case .hashtag(let hashtag) : didTapHashtag(hashtag)
+                    case .mention(let mention) : didTapMention(mention)
+                    }
                 }
             }
+        default: break
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {return}
+        onTouch(touch)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {return}
+        onTouch(touch)
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {return}
+        onTouch(touch)
+    }
+    
+    /// 点击的是标签
+    fileprivate func didTapHashtag(_ hashtagString : String) -> Void {
+        
+        guard let tapHandler = hashtagTapHandler else {
+            
+            return
+        }
+        
+        tapHandler(hashtagString)
+    }
+    
+    /// 点击的是提醒
+    fileprivate func didTapMention(_ mentionString : String) -> Void {
+        
+        guard let tapHandler = mentionTapHandler else {
+            
+            return
+        }
+        
+        tapHandler(mentionString)
+    }
+    
 }
 
 

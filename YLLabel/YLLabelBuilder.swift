@@ -19,9 +19,9 @@ class YLLabelBuilder: NSObject {
         let matches = YLLabelRegex.getMatches(type: type, frome: textString, range: range)
         
         for match in matches {
-            let range = NSRange(location: match.range.location+1, length: match.range.length-2)
+            let range = NSRange(location: match.range.location+1, length: match.range.length + type.hashValue)
             let word = nsstring.substring(with: range)
-            print(word)
+            guard word.utf16.count > 0 else {continue}
             elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
         }
         return elementTupleArr

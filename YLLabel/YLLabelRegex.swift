@@ -10,7 +10,9 @@ import Foundation
 
 struct YLLabelRegex {
     
-    static let hashtagRegex = "#[^#]+#"
+    static let hashtagPattern = "#[^#]+#"
+    static let mentionPattern = "@[\\p{L}0-9_]*"
+    
     
     static func getMatches(type: YLLabelType, frome textString:String,range: NSRange)-> [NSTextCheckingResult]{
         

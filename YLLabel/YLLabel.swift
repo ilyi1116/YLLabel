@@ -52,7 +52,7 @@ class YLLabel: UILabel {
     // 提醒点击事件
     internal var mentionTapHandler: ((String) -> ())?
     
-    // MARK: - 重写
+    // MARK: 重写
     
     /*
      1.显示高亮主要是正则表达式的运用
@@ -60,11 +60,21 @@ class YLLabel: UILabel {
      3.点击判定为coreText的运用。
      */
     override open var text: String? {
-        didSet {
-            updateTextStorage()
-        }
+        didSet {updateTextStorage()}
     }
-    
+    override open var font: UIFont! {
+         didSet {updateTextStorage(updateString: false)}
+    }
+    override open var textColor: UIColor! {
+        didSet {updateTextStorage(updateString: false)}
+    }
+    override open var textAlignment: NSTextAlignment {
+        didSet {updateTextStorage(updateString: false)}
+    }
+    open override var numberOfLines: Int {
+        didSet { textContainer.maximumNumberOfLines = numberOfLines }
+    }
+
     // MARK: 私有属性
     /*
      NSTextStorage保存并管理UITextView要展示的文字内容，该类是NSMutableAttributedString的子类，由于可以灵活地往文字添加或修改属性，所以非常适用于保存并修改文字属性。
@@ -87,7 +97,8 @@ class YLLabel: UILabel {
     // MARK: - 方法
     
     // MARK: 公用
-    
+    public var lineSpacing : CGFloat = 0 // 行间距
+    public var paragraphSpacing : CGFloat = 0 // 段间距
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
     }
@@ -101,7 +112,7 @@ class YLLabel: UILabel {
     fileprivate func setupLabel()  {
         textStorage.addLayoutManager(layoutManager)
         layoutManager.addTextContainer(textContainer)
-        textContainer.maximumNumberOfLines = 0
+        textContainer.maximumNumberOfLines = numberOfLines
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = .byWordWrapping
         isUserInteractionEnabled = true
@@ -111,10 +122,10 @@ class YLLabel: UILabel {
         
         guard let text = text else {return}
         
-        let mutAttrString = NSMutableAttributedString(string: text)
+        let mutAttrString = addOrdinarilyAttributes(text)
         
         if updateString {
-            getAttributesAndElements(mutAttrString)
+            getElementTupleDict(mutAttrString)
         }
         
         addPatternAttributes(mutAttrString)
@@ -123,8 +134,34 @@ class YLLabel: UILabel {
         
         setNeedsDisplay()
     }
+    // 给所有字符串添加文字属性
+    fileprivate func addOrdinarilyAttributes(_ string :String) -> NSMutableAttributedString {
+        
+        let mutAttrString = NSMutableAttributedString(string: string)
+        
+        var range = NSRange(location: 0, length: 0)
+        //给指定索引的字符返回属性
+        var attributes = mutAttrString.attributes(at: 0, effectiveRange: &range)
+        attributes[NSFontAttributeName] = font
+        attributes[NSForegroundColorAttributeName] = textColor
+//        attributes[]
+        
+        let paragraphStyle = attributes[NSParagraphStyleAttributeName] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
+        paragraphStyle.alignment = textAlignment
+//        paragraphStyle.lineSpacing = lineSpacing
+//        paragraphStyle.paragraphSpacing = paragraphSpacing
+        
+        
+        
+        
+        
+        attributes[NSParagraphStyleAttributeName] = paragraphStyle
+        mutAttrString.setAttributes(attributes, range: range)
+        
+        return mutAttrString
+    }
     /// 核心方法,配置elementDict
-    fileprivate func getAttributesAndElements(_ mutAttrString :NSMutableAttributedString){
+    fileprivate func getElementTupleDict(_ mutAttrString :NSMutableAttributedString){
         
         let textString = mutAttrString.string
         let range = NSRange(location: 0, length: textString.characters.count)
@@ -156,10 +193,11 @@ class YLLabel: UILabel {
     // MARK: - drawText
     override func drawText(in rect: CGRect) {
         
+        print("rect    \(rect)")
         let range = NSRange(location: 0, length: textStorage.length)
         
         let newRect = layoutManager.usedRect(for: textContainer)
-        
+        print("newRect \(newRect)")
         drawBeginY = (rect.size.height - newRect.size.height) / 2
         
         let newOrigin = CGPoint(x: rect.origin.x, y: drawBeginY)
@@ -223,10 +261,7 @@ class YLLabel: UILabel {
     /// 点击的是标签
     fileprivate func didTapHashtag(_ hashtagString : String) -> Void {
         
-        guard let tapHandler = hashtagTapHandler else {
-            
-            return
-        }
+        guard let tapHandler = hashtagTapHandler else {return}
         
         tapHandler(hashtagString)
     }
@@ -234,10 +269,7 @@ class YLLabel: UILabel {
     /// 点击的是提醒
     fileprivate func didTapMention(_ mentionString : String) -> Void {
         
-        guard let tapHandler = mentionTapHandler else {
-            
-            return
-        }
+        guard let tapHandler = mentionTapHandler else {return}
         
         tapHandler(mentionString)
     }

@@ -34,7 +34,7 @@
                                     <action selector="showButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mXW-yZ-9af"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Label #hhahha# #xixixi# asdf@ass @adf adf @ @# #@# @12w" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="adf@adfa#adf#" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
                                 <rect key="frame" x="87.5" y="70" width="240" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -42,7 +42,7 @@
                                     <constraint firstAttribute="width" constant="240" id="rZS-7p-aO0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="URL"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label #hhahha# #xixixi#" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czX-iB-1Dr" customClass="YLLabel" customModule="YLLabelDemo" customModuleProvider="target">
                                 <rect key="frame" x="87.5" y="270" width="240" height="41"/>

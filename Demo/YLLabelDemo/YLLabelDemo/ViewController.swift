@@ -18,17 +18,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         label.text = "Label #hhahha#"
-        //label.text = "adfadfadfadfadfa#adfadfadfadf#adfadfadfadfadfadfadfadfa#adfadfaddghdghjd#\n@adfadfadf adfadfadf @adfgadfagsfgshdfghfhjf"
+        
         label.font = UIFont.systemFont(ofSize: 17)
         label.textColor  = UIColor.red
         label.textAlignment = .center
-//        label.lineSpacing = 8
-//        label.paragraphSpacing = 18
-//        label.numberOfLines = 100
+        label.lineSpacing = 8
+        label.numberOfLines = 0
         
         label.mentionColor = UIColor.brown
         label.hashtagColor = UIColor.blue.withAlphaComponent(0.7)
         
+        //label.paragraphSpacing = 18
         
         
         

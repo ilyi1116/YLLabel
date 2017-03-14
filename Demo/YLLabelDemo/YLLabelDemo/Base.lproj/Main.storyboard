@@ -34,7 +34,7 @@
                                     <action selector="showButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mXW-yZ-9af"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="adf@adfa#adf#" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="@12121#wewe#222adsfadfadfadfadsfadsfdfadfghdghfjgjkghjgjk" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
                                 <rect key="frame" x="87.5" y="70" width="240" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

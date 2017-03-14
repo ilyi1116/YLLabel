@@ -98,7 +98,7 @@ class YLLabel: UILabel {
     
     // MARK: 公用
     public var lineSpacing : CGFloat = 0 // 行间距
-    public var paragraphSpacing : CGFloat = 0 // 段间距
+//    public var paragraphSpacing : CGFloat = 0 // 段间距
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
     }
@@ -110,6 +110,7 @@ class YLLabel: UILabel {
     // MARK: 私有
     
     fileprivate func setupLabel()  {
+        numberOfLines = 1
         textStorage.addLayoutManager(layoutManager)
         layoutManager.addTextContainer(textContainer)
         textContainer.maximumNumberOfLines = numberOfLines
@@ -144,12 +145,13 @@ class YLLabel: UILabel {
         var attributes = mutAttrString.attributes(at: 0, effectiveRange: &range)
         attributes[NSFontAttributeName] = font
         attributes[NSForegroundColorAttributeName] = textColor
-//        attributes[]
+        // attributes[]
         
         let paragraphStyle = attributes[NSParagraphStyleAttributeName] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = NSLineBreakMode.byWordWrapping
         paragraphStyle.alignment = textAlignment
-//        paragraphStyle.lineSpacing = lineSpacing
-//        paragraphStyle.paragraphSpacing = paragraphSpacing
+        paragraphStyle.lineSpacing = lineSpacing
+        // paragraphStyle.paragraphSpacing = paragraphSpacing
         
         
         
@@ -192,16 +194,15 @@ class YLLabel: UILabel {
     
     // MARK: - drawText
     override func drawText(in rect: CGRect) {
+        print("numberOfLines \(numberOfLines)")
+        print("rect.size = \(rect.size) ---- textContainer.size = \(textContainer.size)")
         
-        print("rect    \(rect)")
         let range = NSRange(location: 0, length: textStorage.length)
-        
+        textContainer.size = rect.size// 这样得到的 newRect才是正确是尺寸
         let newRect = layoutManager.usedRect(for: textContainer)
-        print("newRect \(newRect)")
         drawBeginY = (rect.size.height - newRect.size.height) / 2
-        
         let newOrigin = CGPoint(x: rect.origin.x, y: drawBeginY)
-        
+
         layoutManager.drawGlyphs(forGlyphRange: range, at: newOrigin)
     }
     

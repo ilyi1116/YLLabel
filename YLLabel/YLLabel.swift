@@ -22,7 +22,10 @@ class YLLabel: UILabel {
         super.init(coder: aDecoder)
         setupLabel()
     }
-
+    open override func awakeFromNib() {
+        super.awakeFromNib()
+        updateTextStorage()
+    }
     /*
      访问控制
      1，private      访问级别所修饰的属性或者方法只能在当前类里访问。
@@ -97,7 +100,9 @@ class YLLabel: UILabel {
     // MARK: - 方法
     
     // MARK: 公用
-    public var lineSpacing : CGFloat = 0 // 行间距
+    public var lineSpacing : CGFloat = 0 { // 行间距
+        didSet {updateTextStorage(updateString: false)}
+    }
 //    public var paragraphSpacing : CGFloat = 0 // 段间距
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
@@ -126,14 +131,20 @@ class YLLabel: UILabel {
         let mutAttrString = addOrdinarilyAttributes(text)
         
         if updateString {
+            
             getElementTupleDict(mutAttrString)
         }
         
         addPatternAttributes(mutAttrString)
-        
         textStorage.setAttributedString(mutAttrString)
         
         setNeedsDisplay()
+    }
+    
+    fileprivate func clearElementTupleDict() {
+        for (type, _) in elementDict {
+            elementDict[type]?.removeAll()
+        }
     }
     // 给所有字符串添加文字属性
     fileprivate func addOrdinarilyAttributes(_ string :String) -> NSMutableAttributedString {
@@ -145,17 +156,13 @@ class YLLabel: UILabel {
         var attributes = mutAttrString.attributes(at: 0, effectiveRange: &range)
         attributes[NSFontAttributeName] = font
         attributes[NSForegroundColorAttributeName] = textColor
-        // attributes[]
         
         let paragraphStyle = attributes[NSParagraphStyleAttributeName] as? NSMutableParagraphStyle ?? NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = NSLineBreakMode.byWordWrapping
         paragraphStyle.alignment = textAlignment
         paragraphStyle.lineSpacing = lineSpacing
+        // paragraphStyle.minimumLineHeight = self.font.pointSize * 1.14
         // paragraphStyle.paragraphSpacing = paragraphSpacing
-        
-        
-        
-        
         
         attributes[NSParagraphStyleAttributeName] = paragraphStyle
         mutAttrString.setAttributes(attributes, range: range)
@@ -194,7 +201,7 @@ class YLLabel: UILabel {
     
     // MARK: - drawText
     override func drawText(in rect: CGRect) {
-        print("numberOfLines \(numberOfLines)")
+        
         print("rect.size = \(rect.size) ---- textContainer.size = \(textContainer.size)")
         
         let range = NSRange(location: 0, length: textStorage.length)

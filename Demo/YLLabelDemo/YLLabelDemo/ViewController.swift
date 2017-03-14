@@ -14,16 +14,22 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var label: YLLabel!
     
+    @IBOutlet weak var numOfLine: UITextField!
+    
+    @IBOutlet weak var lineSpacing: UITextField!
+    
+    @IBOutlet weak var fone: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         label.text = "Label #hhahha#"
         
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
         label.textColor  = UIColor.red
         label.textAlignment = .center
-        label.lineSpacing = 8
-        label.numberOfLines = 0
+        label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
+        label.numberOfLines = (numOfLine.text! as NSString).integerValue
         
         label.mentionColor = UIColor.brown
         label.hashtagColor = UIColor.blue.withAlphaComponent(0.7)
@@ -46,7 +52,9 @@ class ViewController: UIViewController {
 
     @IBAction func showButtonClick(_ sender: UIButton) {
         
-        
+        label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
+        label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
+        label.numberOfLines = (numOfLine.text! as NSString).integerValue
         label.text = textView.text        
     }
 

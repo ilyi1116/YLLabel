@@ -65,6 +65,9 @@ class YLLabel: UILabel {
     override open var text: String? {
         didSet {updateTextStorage()}
     }
+    override open var attributedText: NSAttributedString?{
+        didSet {updateTextStorage()}
+    }
     override open var font: UIFont! {
          didSet {updateTextStorage(updateString: false)}
     }
@@ -103,7 +106,7 @@ class YLLabel: UILabel {
     public var lineSpacing : CGFloat = 0 { // 行间距
         didSet {updateTextStorage(updateString: false)}
     }
-//    public var paragraphSpacing : CGFloat = 0 // 段间距
+    //public var paragraphSpacing : CGFloat = 0 // 段间距
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
     }
@@ -126,12 +129,12 @@ class YLLabel: UILabel {
     
     fileprivate func updateTextStorage(updateString: Bool = true) {
         
-        guard let text = text else {return}
+        guard let attributedText = attributedText else {return}
         
-        let mutAttrString = addOrdinarilyAttributes(text)
+        let mutAttrString = addOrdinarilyAttributes(attributedText)
         
         if updateString {
-            
+            clearElementTupleDict()
             getElementTupleDict(mutAttrString)
         }
         
@@ -147,9 +150,10 @@ class YLLabel: UILabel {
         }
     }
     // 给所有字符串添加文字属性
-    fileprivate func addOrdinarilyAttributes(_ string :String) -> NSMutableAttributedString {
+    fileprivate func addOrdinarilyAttributes(_ attrString :NSAttributedString) -> NSMutableAttributedString {
         
-        let mutAttrString = NSMutableAttributedString(string: string)
+        //let mutAttrString = NSMutableAttributedString(string: string)
+        let mutAttrString = NSMutableAttributedString(attributedString: attrString)
         
         var range = NSRange(location: 0, length: 0)
         //给指定索引的字符返回属性
@@ -212,6 +216,7 @@ class YLLabel: UILabel {
 
         layoutManager.drawGlyphs(forGlyphRange: range, at: newOrigin)
     }
+
     
     // MARK: - touch
     

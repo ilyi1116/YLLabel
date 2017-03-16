@@ -7,7 +7,7 @@ UILabe 子类 -- 支持 Hashtags (#), Mentions (@) 和 URLs (http://) written in
 
 
 
-![效果](/Users/yinlong/Desktop/4.gif)
+![使用效果](https://github.com/CoderYLZhang/YLLabel/Demo/img/使用效果.gif)
 
 
 

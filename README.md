@@ -16,6 +16,9 @@ UILabe 子类 -- 支持 Hashtags (#), Mentions (@) 和 URLs (http://) written in
 现在支持下面这些属性,会拓展其他的实用属性
 
 ```swift
+let customType = YLLabelType.custom(pattern: "用于")
+label.enabledTypes.append(customType)
+
 label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
         
 label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
@@ -27,6 +30,7 @@ label.textColor = UIColor(red: 102.0/255, green: 117.0/255, blue: 127.0/255, alp
 label.hashtagColor = UIColor(red: 85.0/255, green: 172.0/255, blue: 238.0/255, alpha: 1)
 label.mentionColor = UIColor(red: 238.0/255, green: 85.0/255, blue: 96.0/255, alpha: 1)
 label.URLColor = UIColor.blue
+label.customColor[customType] = UIColor.red
 
 // 标签(##) 点击事件
 label.handleHashtagTap { (string) in
@@ -49,8 +53,10 @@ label.handleURLTap { (string) in
 //label.URLTapHandler = {(string) in
 //	self.alert("URL", message: string)
 //}
-
-
+// 自定义 点击事件
+label.handleCustomTap(customType, handler: { (string) in
+	self.alert("customType", message: string)
+})
 
 ```
 
@@ -58,27 +64,27 @@ label.handleURLTap { (string) in
 
 ### 属性解释
 
-| 属性                | 类型                 | 作用                     |
-| :---------------- | :----------------- | ---------------------- |
-| enabledTypes      | [YLLabelType]      | 用户可定义,需要高亮的类型          |
-| hashtagColor      | UIColor            | 标签(##)  显示的颜色 :默认 blue |
-| mentionColor      | UIColor            | 提醒(@)  显示的颜色:默认 blue   |
-| URLColor          | UIColor            | URL  显示的颜色:默认 blue     |
-| text              | String             | 需要显示的文本                |
-| attributedText    | NSAttributedString | 需要显示的富文本               |
-| font              | UIFont             | 所有文本的字体                |
-| textColor         | UIColor            | 普通文本的颜色                |
-| textAlignment     | NSTextAlignment    | 对齐方式:默认左               |
-| numberOfLines     | Int                | 行数:默认1                 |
-| lineSpacing       | paragraphSpacing   | 行高:默认0                 |
-| hashtagTapHandler | ((String) -> ())?  | 标签(##)  点击事件           |
-| mentionTapHandler | ((String) -> ())?  | 提醒(@)  点击事件            |
-| URLTapHandler     | ((String) -> ())?  | URL  点击事件              |
-|                   |                    |                        |
-|                   |                    |                        |
-|                   |                    |                        |
-|                   |                    |                        |
-|                   |                    |                        |
+| 属性                | 类型                               | 作用                     |
+| :---------------- | :------------------------------- | ---------------------- |
+| enabledTypes      | [YLLabelType]                    | 用户可定义,需要高亮的类型          |
+| hashtagColor      | UIColor                          | 标签(##)  显示的颜色 :默认 blue |
+| mentionColor      | UIColor                          | 提醒(@)  显示的颜色:默认 blue   |
+| URLColor          | UIColor                          | URL  显示的颜色:默认 blue     |
+| text              | String                           | 需要显示的文本                |
+| attributedText    | NSAttributedString               | 需要显示的富文本               |
+| font              | UIFont                           | 所有文本的字体                |
+| textColor         | UIColor                          | 普通文本的颜色                |
+| textAlignment     | NSTextAlignment                  | 对齐方式:默认左               |
+| numberOfLines     | Int                              | 行数:默认1                 |
+| lineSpacing       | paragraphSpacing                 | 行高:默认0                 |
+| hashtagTapHandler | ((String) -> ())?                | 标签(##)  点击事件           |
+| mentionTapHandler | ((String) -> ())?                | 提醒(@)  点击事件            |
+| URLTapHandler     | ((String) -> ())?                | URL  点击事件              |
+| customColor       | [YLLabelType : UIColor]          | 根据类型,定义的颜色             |
+| customHandler     | [YLLabelType : ((String) -> ())] | 根据类型,定义的点击事件           |
+|                   |                                  |                        |
+|                   |                                  |                        |
+|                   |                                  |                        |
 
 
 

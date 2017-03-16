@@ -63,7 +63,7 @@ class YLLabel: UILabel {
     internal var mentionTapHandler: ((String) -> ())?
     // URL 点击事件
     internal var URLTapHandler: ((String) -> ())?
-    // URL 点击事件
+    // 自定义 点击事件
     internal var customHandler: [YLLabelType : ((String) -> ())] = [:]
 
     // MARK: 重写

@@ -11,19 +11,16 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
-    
     @IBOutlet weak var label: YLLabel!
-    
     @IBOutlet weak var numOfLine: UITextField!
-    
     @IBOutlet weak var lineSpacing: UITextField!
-    
     @IBOutlet weak var fone: UITextField!
+    @IBOutlet weak var custom: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let customType = YLLabelType.custom(pattern: "用于")
+        let customType = YLLabelType.custom(pattern: "用于匹")
         label.enabledTypes.append(customType)
         
         label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
@@ -74,11 +71,17 @@ class ViewController: UIViewController {
 
 
     @IBAction func showButtonClick(_ sender: UIButton) {
-        
+        let customType = YLLabelType.custom(pattern: custom.text!)
+        label.enabledTypes.remove(at: label.enabledTypes.count-1)
+        label.enabledTypes.append(customType)
+        label.customColor[customType] = UIColor.red
         label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
         label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
         label.numberOfLines = (numOfLine.text! as NSString).integerValue
-        label.text = textView.text        
+        label.text = textView.text
+        label.handleCustomTap(customType, handler: { (string) in
+            self.alert("customType", message: string)
+        })
     }
 
     

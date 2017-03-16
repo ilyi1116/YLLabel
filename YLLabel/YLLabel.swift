@@ -263,7 +263,7 @@ class YLLabel: UILabel {
                 
                 for elementTuple in elementTuples {
                     
-                    guard index > elementTuple.range.location else {continue}
+                    guard index >= elementTuple.range.location else {continue}
                     guard index < elementTuple.range.location + elementTuple.range.length else {continue}
                     
                     switch elementTuple.element {

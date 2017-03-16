@@ -52,7 +52,7 @@ extension YLLabelType : Hashable {
         switch self {
         case .hashtag   : return -2
         case .mention   : return -1
-        case .URL       : return -1
+        case .URL       : return 0
         case .custom    : return 0
         }
     }

@@ -40,7 +40,7 @@ class YLLabel: UILabel {
     
     // MARK: 公用
     
-    open var enabledTypes: [YLLabelType] = [.hashtag,.mention]
+    open var enabledTypes: [YLLabelType] = [.URL,.hashtag,.mention]
     
     open var hashtagColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
@@ -50,10 +50,16 @@ class YLLabel: UILabel {
         didSet {updateTextStorage(updateString: false)}
     }
     
+    open var URLColor : UIColor = .green{
+        didSet {updateTextStorage(updateString: false)}
+    }
+    
     // 标签点击事件
     internal var hashtagTapHandler: ((String) -> ())?
     // 提醒点击事件
     internal var mentionTapHandler: ((String) -> ())?
+    // URL 点击事件
+    internal var URLTapHandler: ((String) -> ())?
     
     // MARK: 重写
     
@@ -106,7 +112,9 @@ class YLLabel: UILabel {
     public var lineSpacing : CGFloat = 0 { // 行间距
         didSet {updateTextStorage(updateString: false)}
     }
-    //public var paragraphSpacing : CGFloat = 0 // 段间距
+    public var paragraphSpacing : CGFloat = 0 { // 段间距
+        didSet {updateTextStorage(updateString: false)}
+    }
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
     }
@@ -115,6 +123,9 @@ class YLLabel: UILabel {
         mentionTapHandler = handler
     }
     
+    open func handleURLTap(_ handler: @escaping (String) -> ()) {
+        URLTapHandler = handler
+    }
     // MARK: 私有
     
     fileprivate func setupLabel()  {
@@ -152,7 +163,6 @@ class YLLabel: UILabel {
     // 给所有字符串添加文字属性
     fileprivate func addOrdinarilyAttributes(_ attrString :NSAttributedString) -> NSMutableAttributedString {
         
-        //let mutAttrString = NSMutableAttributedString(string: string)
         let mutAttrString = NSMutableAttributedString(attributedString: attrString)
         
         var range = NSRange(location: 0, length: 0)
@@ -165,8 +175,7 @@ class YLLabel: UILabel {
         paragraphStyle.lineBreakMode = NSLineBreakMode.byWordWrapping
         paragraphStyle.alignment = textAlignment
         paragraphStyle.lineSpacing = lineSpacing
-        // paragraphStyle.minimumLineHeight = self.font.pointSize * 1.14
-        // paragraphStyle.paragraphSpacing = paragraphSpacing
+        paragraphStyle.paragraphSpacing = paragraphSpacing
         
         attributes[NSParagraphStyleAttributeName] = paragraphStyle
         mutAttrString.setAttributes(attributes, range: range)
@@ -195,6 +204,7 @@ class YLLabel: UILabel {
             switch type {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
             case .mention: attributes[NSForegroundColorAttributeName] = mentionColor
+            case .URL    : attributes[NSForegroundColorAttributeName] = URLColor
             }
             
             for element in elements {
@@ -247,8 +257,9 @@ class YLLabel: UILabel {
                     guard index < elementTuple.range.location + elementTuple.range.length else {continue}
                     
                     switch elementTuple.element {
-                    case .hashtag(let hashtag) : didTapHashtag(hashtag)
-                    case .mention(let mention) : didTapMention(mention)
+                    case .hashtag(let hashtag)  : didTapHashtag(hashtag)
+                    case .mention(let mention)  : didTapMention(mention)
+                    case .URL(let URL)          : didTapURL(URL)
                     }
                 }
             }
@@ -286,7 +297,13 @@ class YLLabel: UILabel {
         
         tapHandler(mentionString)
     }
-    
+    /// 点击的是URL
+    fileprivate func didTapURL(_ URLString : String) -> Void {
+        
+        guard let URLHandler = URLTapHandler else {return}
+        
+        URLHandler(URLString)
+    }
 }
 
 

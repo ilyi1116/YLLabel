@@ -12,7 +12,9 @@ struct YLLabelRegex {
     
     static let hashtagPattern = "#[^#]+#"
     static let mentionPattern = "@[\\p{L}0-9_]*"
-    
+    static let URLPattern = "(^|[\\s.:;?\\-\\]<\\(])" + "((https?://|www\\.|pic\\.)[-\\w;/?:@&=+$\\|\\_.!~*\\|'()\\[\\]%#,☺]+[\\w/#](\\(\\))?)" + "(?=$|[\\s',\\|\\(\\).:;?\\-\\[\\]>\\)])"
+    // 这个正则有个问题 #URL#时,点击会同时响应两个点击事件
+//    static let URLPattern = "((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?"
     
     static func getMatches(type: YLLabelType, frome textString:String,range: NSRange)-> [NSTextCheckingResult]{
         

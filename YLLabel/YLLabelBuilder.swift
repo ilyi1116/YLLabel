@@ -17,13 +17,23 @@ class YLLabelBuilder: NSObject {
         let nsstring = textString as NSString
         
         let matches = YLLabelRegex.getMatches(type: type, frome: textString, range: range)
-        
+        let startIndex = getStartIndex(type)
         for match in matches {
-            let range = NSRange(location: match.range.location+1, length: match.range.length + type.hashValue)
+            let range = NSRange(location: match.range.location+startIndex, length: match.range.length + type.hashValue)
             let word = nsstring.substring(with: range)
             guard word.utf16.count > 0 else {continue}
             elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
         }
         return elementTupleArr
     }
+    
+    fileprivate static func getStartIndex(_ type : YLLabelType) -> Int {
+        switch type {
+        case .URL:
+            return 0
+        case .mention,.hashtag:
+            return 1
+        }
+    }
+    
 }

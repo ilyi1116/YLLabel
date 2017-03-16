@@ -23,18 +23,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        label.text = "Label #hhahha#"
+        label.text = "https://www.baidu.com/"
         
         label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
         label.textColor  = UIColor.red
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
         label.numberOfLines = (numOfLine.text! as NSString).integerValue
         
         label.mentionColor = UIColor.brown
         label.hashtagColor = UIColor.blue.withAlphaComponent(0.7)
         
-        //label.paragraphSpacing = 18
+//        label.paragraphSpacing = 18
         
         
         
@@ -45,7 +45,9 @@ class ViewController: UIViewController {
         label.handleMentionTap { (string) in
             self.alert("提醒", message: string)
         }
-        
+        label.handleURLTap { (string) in
+            self.alert("URL", message: string)
+        }
 
     }
 

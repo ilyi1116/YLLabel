@@ -34,7 +34,7 @@
                                     <action selector="showButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mXW-yZ-9af"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="https://www.baidu.com/ https://www.baidu.com/ 11222333 #@ad# @https://www.baidu.com/ #https://www.baidu.com/#" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang 12138" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MVG-2K-thd">
                                 <rect key="frame" x="88" y="70" width="240" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

@@ -23,32 +23,40 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        label.text = "https://www.baidu.com/"
+        label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
         
         label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
-        label.textColor  = UIColor.red
         label.textAlignment = .left
         label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
         label.numberOfLines = (numOfLine.text! as NSString).integerValue
         
-        label.mentionColor = UIColor.brown
-        label.hashtagColor = UIColor.blue.withAlphaComponent(0.7)
+        label.textColor = UIColor(red: 102.0/255, green: 117.0/255, blue: 127.0/255, alpha: 1)
+        label.hashtagColor = UIColor(red: 85.0/255, green: 172.0/255, blue: 238.0/255, alpha: 1)
+        label.mentionColor = UIColor(red: 238.0/255, green: 85.0/255, blue: 96.0/255, alpha: 1)
+        label.URLColor = UIColor.blue
         
-//        label.paragraphSpacing = 18
-        
-        
+        // label.paragraphSpacing = 18
         
         label.handleHashtagTap { (string) in
             self.alert("标签", message: string)
         }
+//        label.hashtagTapHandler = {(string) in
+//            self.alert("标签", message: string)
+//        }
         
         label.handleMentionTap { (string) in
             self.alert("提醒", message: string)
         }
+//        label.mentionTapHandler = {(string) in
+//            self.alert("提醒", message: string)
+//        }
+        
         label.handleURLTap { (string) in
             self.alert("URL", message: string)
         }
-
+//        label.URLTapHandler = {(string) in
+//            self.alert("URL", message: string)
+//        }
     }
 
 

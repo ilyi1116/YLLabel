@@ -46,11 +46,11 @@ class YLLabel: UILabel {
         didSet {updateTextStorage(updateString: false)}
     }
     
-    open var mentionColor : UIColor = .red{
+    open var mentionColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
     }
     
-    open var URLColor : UIColor = .green{
+    open var URLColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
     }
     
@@ -86,7 +86,12 @@ class YLLabel: UILabel {
     open override var numberOfLines: Int {
         didSet { textContainer.maximumNumberOfLines = numberOfLines }
     }
-
+    public var lineSpacing : CGFloat = 0 { // 行间距
+        didSet {updateTextStorage(updateString: false)}
+    }
+    public var paragraphSpacing : CGFloat = 0 { // 段间距
+        didSet {updateTextStorage(updateString: false)}
+    }
     // MARK: 私有属性
     /*
      NSTextStorage保存并管理UITextView要展示的文字内容，该类是NSMutableAttributedString的子类，由于可以灵活地往文字添加或修改属性，所以非常适用于保存并修改文字属性。
@@ -104,17 +109,12 @@ class YLLabel: UILabel {
     // 重要属性
     // key   : 高亮类型 -- 话题(##) 提到(@) URL 未来可能支持自定义
     // value : 元组数组 -- 高亮文字的文字及内容
-    lazy var elementDict = [YLLabelType: [ElementTuple]]()
+    fileprivate lazy var elementDict = [YLLabelType: [ElementTuple]]()
     
     // MARK: - 方法
     
     // MARK: 公用
-    public var lineSpacing : CGFloat = 0 { // 行间距
-        didSet {updateTextStorage(updateString: false)}
-    }
-    public var paragraphSpacing : CGFloat = 0 { // 段间距
-        didSet {updateTextStorage(updateString: false)}
-    }
+    
     open func handleHashtagTap(_ handler: @escaping (String) -> ()) {
         hashtagTapHandler = handler
     }

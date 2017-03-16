@@ -84,7 +84,7 @@ label.handleURLTap { (string) in
 
 # 即将登场
 
--[ ] 自定义类型
+-[x] 自定义类型
 
 
 -[ ] 选中状态颜色

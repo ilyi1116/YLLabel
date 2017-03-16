@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias ElementTuple = (range: NSRange, element: YLElements)
+typealias ElementTuple = (range: NSRange, element: YLElements,type: YLLabelType)
 
 class YLLabel: UILabel {
     
@@ -53,6 +53,9 @@ class YLLabel: UILabel {
     open var URLColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
     }
+    open var customColor : [YLLabelType : UIColor] = [:] {
+        didSet {updateTextStorage(updateString: false)}
+    }
     
     // 标签点击事件
     internal var hashtagTapHandler: ((String) -> ())?
@@ -60,7 +63,9 @@ class YLLabel: UILabel {
     internal var mentionTapHandler: ((String) -> ())?
     // URL 点击事件
     internal var URLTapHandler: ((String) -> ())?
-    
+    // URL 点击事件
+    internal var customHandler: [YLLabelType : ((String) -> ())] = [:]
+
     // MARK: 重写
     
     /*
@@ -126,6 +131,10 @@ class YLLabel: UILabel {
     open func handleURLTap(_ handler: @escaping (String) -> ()) {
         URLTapHandler = handler
     }
+    open func handleCustomTap(_ type: YLLabelType, handler: @escaping (String) -> ()) {
+        customHandler[type] = handler
+    }
+    
     // MARK: 私有
     
     fileprivate func setupLabel()  {
@@ -205,12 +214,13 @@ class YLLabel: UILabel {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
             case .mention: attributes[NSForegroundColorAttributeName] = mentionColor
             case .URL    : attributes[NSForegroundColorAttributeName] = URLColor
+            case .custom : attributes[NSForegroundColorAttributeName] = customColor[type] ?? textColor
             }
             
             for element in elements {
                 mutAttrString.setAttributes(attributes, range: element.range)
             }
-        }        
+        }
     }
     
     // MARK: - drawText
@@ -260,6 +270,7 @@ class YLLabel: UILabel {
                     case .hashtag(let hashtag)  : didTapHashtag(hashtag)
                     case .mention(let mention)  : didTapMention(mention)
                     case .URL(let URL)          : didTapURL(URL)
+                    case .custom(let custom)    : didTapCustom(elementTuple.type, custom: custom)
                     }
                 }
             }
@@ -286,7 +297,6 @@ class YLLabel: UILabel {
     fileprivate func didTapHashtag(_ hashtagString : String) -> Void {
         
         guard let tapHandler = hashtagTapHandler else {return}
-        
         tapHandler(hashtagString)
     }
     
@@ -294,15 +304,19 @@ class YLLabel: UILabel {
     fileprivate func didTapMention(_ mentionString : String) -> Void {
         
         guard let tapHandler = mentionTapHandler else {return}
-        
         tapHandler(mentionString)
     }
     /// 点击的是URL
     fileprivate func didTapURL(_ URLString : String) -> Void {
         
         guard let URLHandler = URLTapHandler else {return}
-        
         URLHandler(URLString)
+    }
+    /// 点击的是自定义
+    fileprivate func didTapCustom(_ type : YLLabelType,custom : String) -> Void {
+        
+        guard let customHandler = customHandler[type] else {return}
+        customHandler(custom)
     }
 }
 

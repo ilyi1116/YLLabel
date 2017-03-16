@@ -23,6 +23,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let customType = YLLabelType.custom(pattern: "用于")
+        
+        label.enabledTypes.append(customType)
+        
         label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
         
         label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
@@ -34,7 +38,7 @@ class ViewController: UIViewController {
         label.hashtagColor = UIColor(red: 85.0/255, green: 172.0/255, blue: 238.0/255, alpha: 1)
         label.mentionColor = UIColor(red: 238.0/255, green: 85.0/255, blue: 96.0/255, alpha: 1)
         label.URLColor = UIColor.blue
-        
+        label.customColor[customType] = UIColor.red
         // label.paragraphSpacing = 18
         
         label.handleHashtagTap { (string) in
@@ -57,6 +61,10 @@ class ViewController: UIViewController {
 //        label.URLTapHandler = {(string) in
 //            self.alert("URL", message: string)
 //        }
+        
+        label.handleCustomTap(customType, handler: { (string) in
+            self.alert("customType", message: string)
+        })
     }
 
 

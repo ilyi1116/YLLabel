@@ -22,14 +22,14 @@ class YLLabelBuilder: NSObject {
             let range = NSRange(location: match.range.location+startIndex, length: match.range.length + type.hashValue)
             let word = nsstring.substring(with: range)
             guard word.utf16.count > 0 else {continue}
-            elementTupleArr.append((match.range,YLElements.creat(with: type, text: word)))
+            elementTupleArr.append((match.range,YLElements.creat(with: type, text: word),type))
         }
         return elementTupleArr
     }
     
     fileprivate static func getStartIndex(_ type : YLLabelType) -> Int {
         switch type {
-        case .URL:
+        case .URL,.custom:
             return 0
         case .mention,.hashtag:
             return 1

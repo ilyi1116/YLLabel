@@ -45,14 +45,24 @@ class YLLabel: UILabel {
     open var hashtagColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
     }
+    open var hashtagSelectColor : UIColor = UIColor.blue.withAlphaComponent(0.5) {
+        didSet {updateTextStorage(updateString: false)}
+    }
     
     open var mentionColor : UIColor = .blue{
+        didSet {updateTextStorage(updateString: false)}
+    }
+    open var mentionSelectColor : UIColor = UIColor.blue.withAlphaComponent(0.5){
         didSet {updateTextStorage(updateString: false)}
     }
     
     open var URLColor : UIColor = .blue{
         didSet {updateTextStorage(updateString: false)}
     }
+    open var URLSelectColor : UIColor = UIColor.blue.withAlphaComponent(0.5){
+        didSet {updateTextStorage(updateString: false)}
+    }
+    
     open var customColor : [YLLabelType : UIColor] = [:] {
         didSet {updateTextStorage(updateString: false)}
     }
@@ -223,10 +233,52 @@ class YLLabel: UILabel {
         }
     }
     
+    fileprivate func updateWhenSelected(_ elementTuple:ElementTuple, isSelected :Bool){
+        
+        //给指定索引的字符返回属性
+        var attributes = textStorage.attributes(at: 0, effectiveRange: nil)
+        
+        if isSelected {
+            
+            switch elementTuple.type {
+                
+            case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagSelectColor
+            case .mention: attributes[NSForegroundColorAttributeName] = mentionSelectColor
+            case .URL    : attributes[NSForegroundColorAttributeName] = URLSelectColor
+            case .custom : attributes[NSForegroundColorAttributeName] = customColor[elementTuple.type] ?? textColor
+            }
+        }
+        else{
+            switch elementTuple.type {
+                
+            case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagColor
+            case .mention: attributes[NSForegroundColorAttributeName] = mentionColor
+            case .URL    : attributes[NSForegroundColorAttributeName] = URLColor
+            case .custom : attributes[NSForegroundColorAttributeName] = customColor[elementTuple.type] ?? textColor
+            }
+        }
+        
+        textStorage.addAttributes(attributes, range: elementTuple.range)
+        setNeedsDisplay()
+    }
+    
+    fileprivate func getSelectElementTuple(_ index: Int) -> ElementTuple? {
+        
+        //elementDict = ["key":[elementTuple]] $0.1 = [elementTuple]
+        for elementTuples in elementDict.map({ $0.1 }){
+            
+            for elementTuple in elementTuples {
+                
+                guard index >= elementTuple.range.location else {continue}
+                guard index < elementTuple.range.location + elementTuple.range.length else {continue}
+                
+                return elementTuple
+            }
+        }
+        return  nil
+    }
     // MARK: - drawText
     override func drawText(in rect: CGRect) {
-        
-        print("rect.size = \(rect.size) ---- textContainer.size = \(textContainer.size)")
         
         let range = NSRange(location: 0, length: textStorage.length)
         textContainer.size = rect.size// 这样得到的 newRect才是正确是尺寸
@@ -236,7 +288,6 @@ class YLLabel: UILabel {
 
         layoutManager.drawGlyphs(forGlyphRange: range, at: newOrigin)
     }
-
     
     // MARK: - touch
     
@@ -252,27 +303,23 @@ class YLLabel: UILabel {
         let index = layoutManager.glyphIndex(for: location, in: textContainer)
         
         switch touch.phase {
-        case .began:
-            print("began")
-        case .moved:
-            print("moved")
+        case .began,.moved:
+            
+            let elementTuple = getSelectElementTuple(index)
+            guard let elementTuple2 = elementTuple else {return}
+            updateWhenSelected(elementTuple2,isSelected: true)
+            
         case .ended:
-
-            //elementDict = ["key":[elementTuple]] $0.1 = [elementTuple]
-            for elementTuples in elementDict.map({ $0.1 }){
-                
-                for elementTuple in elementTuples {
-                    
-                    guard index >= elementTuple.range.location else {continue}
-                    guard index < elementTuple.range.location + elementTuple.range.length else {continue}
-                    
-                    switch elementTuple.element {
-                    case .hashtag(let hashtag)  : didTapHashtag(hashtag)
-                    case .mention(let mention)  : didTapMention(mention)
-                    case .URL(let URL)          : didTapURL(URL)
-                    case .custom(let custom)    : didTapCustom(elementTuple.type, custom: custom)
-                    }
-                }
+            
+            let elementTuple = getSelectElementTuple(index)
+            guard let elementTuple2 = elementTuple else {return}
+            updateWhenSelected(elementTuple2,isSelected: false)
+            
+            switch elementTuple2.element {
+            case .hashtag(let hashtag)  : didTapHashtag(hashtag)
+            case .mention(let mention)  : didTapMention(mention)
+            case .URL(let URL)          : didTapURL(URL)
+            case .custom(let custom)    : didTapCustom(elementTuple2.type, custom: custom)
             }
         default: break
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum  YLLabelType {
+public enum  YLLabelType {
     // #话题#
     case hashtag
     // @用户名
@@ -24,6 +24,23 @@ enum  YLLabelType {
         case .mention   : return YLLabelRegex.mentionPattern
         case .URL       : return YLLabelRegex.URLPattern
         case .custom(let pattern) : return pattern
+        }
+    }
+    var tenderLength: Int {
+        switch self {
+        case .hashtag   : return -2
+        case .mention   : return -1
+        case .URL       : return 0
+        case .custom    : return 0
+        }
+    }
+    
+    var startIndex: Int {
+        switch self {
+        case .URL,.custom:
+            return 0
+        case .mention,.hashtag:
+            return 1
         }
     }
     
@@ -47,28 +64,25 @@ enum YLElements{
 }
 
 
-extension YLLabelType : Hashable {
+extension YLLabelType : Hashable, Equatable{
     public var hashValue : Int {
         switch self {
-        case .hashtag   : return -2
-        case .mention   : return -1
-        case .URL       : return 0
-        case .custom    : return 0
+        case .hashtag   : return -3
+        case .mention   : return -2
+        case .URL       : return -1
+        case .custom(let pattern) : return pattern.hashValue
         }
     }
 }
 
-
-
-extension YLLabelType : Equatable {
-    public static func == (lhs: YLLabelType, rhs: YLLabelType) -> Bool {
-        switch (lhs, rhs) {
-        case (.mention, .mention): return true
-        case (.hashtag, .hashtag): return true
-        case (.URL, .URL): return true
-        case (.custom(let pattern1), .custom(let pattern2)): return pattern1 == pattern2
-        default: return false
-        }
+public func == (lhs: YLLabelType, rhs: YLLabelType) -> Bool {
+    
+    switch (lhs, rhs) {
+    case (.mention, .mention): return true
+    case (.hashtag, .hashtag): return true
+    case (.URL, .URL): return true
+    case (.custom(let pattern1), .custom(let pattern2)): return pattern1 == pattern2
+    default: return false
     }
 }
 

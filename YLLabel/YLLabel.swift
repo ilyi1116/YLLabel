@@ -66,6 +66,9 @@ class YLLabel: UILabel {
     open var customColor : [YLLabelType : UIColor] = [:] {
         didSet {updateTextStorage(updateString: false)}
     }
+    open var customSelectColor : [YLLabelType : UIColor] = [:] {
+        didSet {updateTextStorage(updateString: false)}
+    }
     
     // 标签点击事件
     internal var hashtagTapHandler: ((String) -> ())?
@@ -245,7 +248,7 @@ class YLLabel: UILabel {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagSelectColor
             case .mention: attributes[NSForegroundColorAttributeName] = mentionSelectColor
             case .URL    : attributes[NSForegroundColorAttributeName] = URLSelectColor
-            case .custom : attributes[NSForegroundColorAttributeName] = customColor[elementTuple.type] ?? textColor
+            case .custom : attributes[NSForegroundColorAttributeName] = customSelectColor[elementTuple.type] ?? textColor
             }
         }
         else{
@@ -302,24 +305,23 @@ class YLLabel: UILabel {
         
         let index = layoutManager.glyphIndex(for: location, in: textContainer)
         
+        let elementTuple = getSelectElementTuple(index)
+
         switch touch.phase {
         case .began,.moved:
             
-            let elementTuple = getSelectElementTuple(index)
-            guard let elementTuple2 = elementTuple else {return}
-            updateWhenSelected(elementTuple2,isSelected: true)
+            guard let elementTuple = elementTuple else {return}
+            updateWhenSelected(elementTuple,isSelected: true)
             
         case .ended:
             
-            let elementTuple = getSelectElementTuple(index)
-            guard let elementTuple2 = elementTuple else {return}
-            updateWhenSelected(elementTuple2,isSelected: false)
-            
-            switch elementTuple2.element {
+            guard let elementTuple = elementTuple else {return}
+            updateWhenSelected(elementTuple,isSelected: false)
+            switch elementTuple.element {
             case .hashtag(let hashtag)  : didTapHashtag(hashtag)
             case .mention(let mention)  : didTapMention(mention)
             case .URL(let URL)          : didTapURL(URL)
-            case .custom(let custom)    : didTapCustom(elementTuple2.type, custom: custom)
+            case .custom(let custom)    : didTapCustom(elementTuple.type, custom: custom)
             }
         default: break
         }

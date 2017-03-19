@@ -129,6 +129,7 @@ class YLLabel: UILabel {
     // value : 元组数组 -- 高亮文字的文字及内容
     fileprivate lazy var elementDict = [YLLabelType: [ElementTuple]]()
     
+    fileprivate var selectedElementTuple : ElementTuple?
     // MARK: - 方法
     
     // MARK: 公用
@@ -236,7 +237,8 @@ class YLLabel: UILabel {
         }
     }
     
-    fileprivate func updateWhenSelected(_ elementTuple:ElementTuple, isSelected :Bool){
+    fileprivate func updateWhenSelected(_ isSelected :Bool){
+        guard let elementTuple = selectedElementTuple else {return}
         
         //给指定索引的字符返回属性
         var attributes = textStorage.attributes(at: 0, effectiveRange: nil)
@@ -306,17 +308,19 @@ class YLLabel: UILabel {
         let index = layoutManager.glyphIndex(for: location, in: textContainer)
         
         let elementTuple = getSelectElementTuple(index)
-
+        
         switch touch.phase {
         case .began,.moved:
             
-            guard let elementTuple = elementTuple else {return}
-            updateWhenSelected(elementTuple,isSelected: true)
-            
+            if elementTuple?.range.location != selectedElementTuple?.range.location {
+                updateWhenSelected(false)
+                selectedElementTuple = elementTuple
+                updateWhenSelected(true)
+            }
         case .ended:
             
             guard let elementTuple = elementTuple else {return}
-            updateWhenSelected(elementTuple,isSelected: false)
+            updateWhenSelected(false)
             switch elementTuple.element {
             case .hashtag(let hashtag)  : didTapHashtag(hashtag)
             case .mention(let mention)  : didTapMention(mention)

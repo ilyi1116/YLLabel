@@ -93,7 +93,9 @@ label.handleCustomTap(customType, handler: { (string) in
 -[x] 自定义类型
 
 
--[ ] 选中状态颜色
+-[x] 选中状态颜色
+-[ ] 可能添加动画(纯数字时的变化)
+-[ ] 可能添加支持图文混排
 
 
 

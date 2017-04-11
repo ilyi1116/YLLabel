@@ -63,7 +63,11 @@ enum YLElements{
     }
 }
 
-
+/*
+ Swift的所有基本类型（形如String，Int，Double，Bool）默认是可哈希化的，可以作为集合的值的类型或者字典的键的类型。
+ 没有关联值的枚举成员值默认也是可哈希化的。
+ http://www.jianshu.com/p/5eb7c02f82d3
+ */
 extension YLLabelType : Hashable, Equatable{
     public var hashValue : Int {
         switch self {
@@ -74,7 +78,11 @@ extension YLLabelType : Hashable, Equatable{
         }
     }
 }
-
+/*
+ 对于 == 的实现我们并没有像实现其他一些协议一样将其放在对应的 extension里,
+ 而是放在了全局,因为你应该需要在全局范围内都能使用 ==
+ (上面这段话来自 Swift 开发必备100个tips)
+ */
 public func == (lhs: YLLabelType, rhs: YLLabelType) -> Bool {
     
     switch (lhs, rhs) {

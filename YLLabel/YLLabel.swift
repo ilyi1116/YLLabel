@@ -250,7 +250,11 @@ class YLLabel: UILabel {
             case .hashtag: attributes[NSForegroundColorAttributeName] = hashtagSelectColor
             case .mention: attributes[NSForegroundColorAttributeName] = mentionSelectColor
             case .URL    : attributes[NSForegroundColorAttributeName] = URLSelectColor
-            case .custom : attributes[NSForegroundColorAttributeName] = customSelectColor[elementTuple.type] ?? textColor
+            case .custom :
+                var color = self.customSelectColor[elementTuple.type] ?? self.customColor[elementTuple.type]
+                color = color ?? textColor
+                attributes[NSForegroundColorAttributeName] = color
+                
             }
         }
         else{

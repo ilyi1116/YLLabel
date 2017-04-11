@@ -22,8 +22,7 @@ class ViewController: UIViewController {
         
         let customType = YLLabelType.custom(pattern: "用于匹")
         label.enabledTypes.append(customType)
-        
-        label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
+    
         
         
         label.font = UIFont.systemFont(ofSize: CGFloat((fone.text! as NSString).doubleValue))
@@ -31,13 +30,20 @@ class ViewController: UIViewController {
         label.lineSpacing = CGFloat((lineSpacing.text! as NSString).doubleValue)
         label.numberOfLines = (numOfLine.text! as NSString).integerValue
         
-        label.textColor = UIColor(red: 102.0/255, green: 117.0/255, blue: 127.0/255, alpha: 1)
-        label.hashtagColor = UIColor(red: 85.0/255, green: 172.0/255, blue: 238.0/255, alpha: 1)
-        label.mentionColor = UIColor(red: 238.0/255, green: 85.0/255, blue: 96.0/255, alpha: 1)
-        label.URLColor = UIColor.blue
+        label.textColor = UIColor.black
+        label.hashtagColor = UIColor.blue
+        label.hashtagSelectColor = UIColor.blue.withAlphaComponent(0.5)
+        label.mentionColor = UIColor.brown
+        label.mentionSelectColor = UIColor.brown.withAlphaComponent(0.5)
+        label.URLColor = UIColor.cyan
+        label.URLSelectColor = UIColor.cyan.withAlphaComponent(0.5)
         label.customColor[customType] = UIColor.red
+        //label.customSelectColor[customType] = UIColor.red.withAlphaComponent(0.5)
         
         // label.paragraphSpacing = 18
+        
+        label.text = "#YLLabel# 用于匹配字符串中的相关内容,地址: https://github.com/CoderYLZhang/YLLabel 作者@CoderYLZhang"
+        
         
         // 标签(##) 点击事件
         label.handleHashtagTap { (string) in
